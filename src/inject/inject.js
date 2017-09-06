@@ -2,8 +2,20 @@ chrome.extension.sendMessage({}, function(response) {
 	var readyStateCheckInterval = setInterval(function() {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
-		main();
-		window.popstate = main;
+
+        console.log('Setting up OctroDraft...')
+        // huge hack, how can I listen for the github style pjax navigation, better?
+        let isIssuesPage = false
+        const oof = setInterval(() => {
+            if(location.href.includes('issues/new') && !isIssuesPage) {
+                debugger
+                isIssuesPage = true;
+                main();
+            } else if(!location.href.includes('issues/new')){
+                isIssuesPage = false;
+            }
+        }, 1000);
+		// window.popstate = main; // doesnt work
 	}}, 10);
 });
 
@@ -17,7 +29,7 @@ let drafts = new Drafts();
 
 function main() {
 	'use strict';
-	console.log('Setting up OctroDraft...')
+  
   if(location.href.includes('issues/new')) {
       loadExistingIssueIfExists();
       showDraftButton();
@@ -27,13 +39,14 @@ function main() {
 function loadExistingIssueIfExists() {
     const issue = drafts.get(getRepoFromURL());
     if(issue) {
-        document.querySelector(TITLE_SEL).value = issue.title;
-        document.querySelector(BODY_SEL).value = issue.body;
+        if(issue.title) document.querySelector(TITLE_SEL).value = issue.title;
+        if(issue.body) document.querySelector(BODY_SEL).value = issue.body;
     }
 }
 function showDraftButton() {
+    if(document.querySelector('.octodraft')) return;
     const container = document.querySelector('.form-actions ');
-    const template =  ele('div', SAVE_DRAFT, 'btn', {}, { color: 'white' });
+    const template =  ele('div', SAVE_DRAFT, ['btn', 'octodraft'], {}, { color: 'white' });
     //TODO add mutation observer so that save draft button will be disabled and non disabled whenever submit issue is.
     template.innerHTML = SAVE_DRAFT;
     template.style.backgroundColor = dark;
@@ -96,10 +109,11 @@ function getIssueTemplate(id, title, date, link) {
 
     return template
 }
-function ele(type, innerHTML, className, attrs, style) {
+function ele(type, innerHTML, classNames, attrs, style) {
     const element = document.createElement(type);
     element.innerHTML = innerHTML;
-    element.classList.add(className);
+    if(typeof classNames === 'string') classNames = [classNames]
+    classNames.forEach(className => element.classList.add(className));
     Object.keys(attrs).forEach(a => element[a] = attrs[a]);
     Object.keys(style).forEach(s => element.style[s] = style[s]);
     return element;
