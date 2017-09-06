@@ -8,6 +8,6 @@ When one reports an issue, an example of code is needed. Sometimes making a mini
 
 ## Install
 
-[![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_128x128.png)](https://github.com/wildeyes/octodraft)
+[![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_128x128.png)](https://chrome.google.com/webstore/detail/mjfaidoickdplapkfhajfkehpepmccfg)
 
-Install via github, until the extension is up in Chrome web store.
+Install via [Chrome web store](https://chrome.google.com/webstore/detail/mjfaidoickdplapkfhajfkehpepmccfg).
