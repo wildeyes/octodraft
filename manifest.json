@@ -1,6 +1,6 @@
 {
   "name": "OctoDraft",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "Save drafts of issues in github.",
   "homepage_url": "https://github.com/wildeyes/octodraft",
@@ -11,8 +11,12 @@
   },
   "default_locale": "en",
   "permissions": [
-    "https://github.com/*"
+    "https://github.com/*",
+    "webNavigation"
   ],
+  "background": {
+    "scripts": ["src/background.js"]
+  },
   "content_scripts": [
     {
       "matches": [

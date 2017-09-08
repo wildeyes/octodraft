@@ -1,24 +1,3 @@
-chrome.extension.sendMessage({}, function(response) {
-	var readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
-
-        console.log('Setting up OctroDraft...')
-        // huge hack, how can I listen for the github style pjax navigation, better?
-        let isIssuesPage = false
-        const oof = setInterval(() => {
-            if(location.href.includes('issues/new') && !isIssuesPage) {
-                debugger
-                isIssuesPage = true;
-                main();
-            } else if(!location.href.includes('issues/new')){
-                isIssuesPage = false;
-            }
-        }, 1000);
-		// window.popstate = main; // doesnt work
-	}}, 10);
-});
-
 const dark = '#1580ff';
 const light = '#3790F9';
 const SAVE_DRAFT = 'Save Draft';
@@ -26,6 +5,13 @@ const SAVE_DRAFT = 'Save Draft';
 const TITLE_SEL = 'input[name="issue[title]"]';
 const BODY_SEL = 'textarea[name="issue[body]"]';
 let drafts = new Drafts();
+
+main();
+console.log('Setting up OctroDraft...')
+chrome.runtime.onMessage.addListener(function(res) {
+    if(res.msg === 'HISTORY_CHANGED')
+        setTimeout(main, 100); // wait for DOM Loaded.
+});
 
 function main() {
 	'use strict';
