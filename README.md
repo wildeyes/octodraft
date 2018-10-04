@@ -11,3 +11,7 @@ When one reports an issue, an example of code is needed. Sometimes making a mini
 [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_128x128.png)](https://chrome.google.com/webstore/detail/mjfaidoickdplapkfhajfkehpepmccfg)
 
 Install via [Chrome web store](https://chrome.google.com/webstore/detail/mjfaidoickdplapkfhajfkehpepmccfg).
+
+### Related Projects
+
+https://github.com/Liooo/github-comment-draft
